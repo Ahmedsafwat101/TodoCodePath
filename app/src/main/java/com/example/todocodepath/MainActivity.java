@@ -11,6 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,13 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //adding data int list
-        itemList= new ArrayList<>();
-        itemList.add("Buy Milk");
-        itemList.add("Go to the gym");
-        itemList.add("Have fun!");
-        itemList.add("Solve leetcode problem");
-
-
+        loadItems();
 
       addItem=(EditText)findViewById(R.id.editText);
       recView=(RecyclerView)findViewById(R.id.recyclerView);
@@ -41,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
               itemList.remove(position);
               adapter.notifyItemRemoved(position);
               Toast.makeText(getApplicationContext(),"Item was deleted",Toast.LENGTH_SHORT).show();
+              saveItem();
           }
       };
 
@@ -59,9 +59,32 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyItemInserted(itemList.size()-1);
                 addItem.setText("");
                 Toast.makeText(getApplicationContext(),"Item was added",Toast.LENGTH_SHORT).show();
+                saveItem();
             }
         });
 
+    }
+    private File getDataFile()
+    {
+        return (new File(getFilesDir(),"data.txt"));
+    }
+
+    private void loadItems(){
+        try {
+            itemList=new ArrayList<>(FileUtils.readLines(getDataFile(), Charset.defaultCharset()));
+        } catch (IOException e) {
+            Log.e("MainActivity","Error Reading File",e);
+            itemList= new ArrayList<>();
+        }
+    }
+
+    private void saveItem()
+    {
+        try {
+            FileUtils.writeLines(getDataFile(),itemList);
+        } catch (IOException e) {
+            Log.e("MainActivity","Error Saving File",e);
+        }
     }
 
 }
