@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
    public  static  final  String KEY_ITEM_POSITION = "item_position";
    public  static  final    int  TEXT_CODE=20;
    List<String> itemList;
-   Button addButton;
+   FloatingActionButton addButton;
    EditText addItem;
    TextView itemINList;
    RecyclerView recView;
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
       recView.setAdapter(adapter);
       recView.setLayoutManager(new LinearLayoutManager(this));
 
-        addButton=(Button)findViewById(R.id.addButton);
+        addButton=(FloatingActionButton)findViewById(R.id.addButton);
       //add action for the button
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
