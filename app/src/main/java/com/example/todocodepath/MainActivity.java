@@ -1,14 +1,17 @@
 package com.example.todocodepath;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.commons.io.FileUtils;
@@ -20,9 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+   public  static  final  String KEY_ITEM_TEXT="item_text";
+   public  static  final  String KEY_ITEM_POSITION = "item_position";
+   public  static  final    int  TEXT_CODE=20;
    List<String> itemList;
    Button addButton;
    EditText addItem;
+   TextView itemINList;
    RecyclerView recView;
    ItemAdapter adapter;
     @Override
@@ -34,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
       addItem=(EditText)findViewById(R.id.editText);
       recView=(RecyclerView)findViewById(R.id.recyclerView);
-      ItemAdapter.OnLongClickListener listener= new ItemAdapter.OnLongClickListener() {
+
+      ItemAdapter.OnLongClickListener LongListener= new ItemAdapter.OnLongClickListener() {
           @Override
           public void onItemLongClickListener(int position) {
               itemList.remove(position);
@@ -44,7 +52,16 @@ public class MainActivity extends AppCompatActivity {
           }
       };
 
-      adapter= new ItemAdapter(itemList,listener);
+      ItemAdapter.OnClickListener listener= new ItemAdapter.OnClickListener() {
+          @Override
+          public void onItemClickListener(int position) {
+              Intent intent= new Intent(getApplicationContext(),UpdateActivity.class);
+              intent.putExtra(KEY_ITEM_TEXT,itemList.get(position));
+              intent.putExtra(KEY_ITEM_POSITION,position);
+              startActivityForResult(intent,TEXT_CODE);
+          }
+      };
+      adapter= new ItemAdapter(itemList,LongListener,listener);
       recView.setAdapter(adapter);
       recView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -63,7 +80,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("Result:"+resultCode);
+            System.out.println("Request:"+requestCode);
+
+        if (resultCode ==  RESULT_OK  && requestCode == TEXT_CODE) {
+            String intentText=data.getStringExtra(KEY_ITEM_TEXT);
+            int pos= data.getExtras().getInt(KEY_ITEM_POSITION);
+            itemList.set(pos,intentText);
+            saveItem();
+            adapter.notifyDataSetChanged();
+            Toast.makeText(getApplicationContext(),"Item Updated",Toast.LENGTH_SHORT).show();
+        } else {
+            Log.i("MainActivity", "Unknown Call !: ");
+        }
+
+    }
+
     private File getDataFile()
     {
         return (new File(getFilesDir(),"data.txt"));
@@ -86,5 +124,4 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MainActivity","Error Saving File",e);
         }
     }
-
 }

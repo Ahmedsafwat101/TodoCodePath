@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/icon" />
 
         <TextView
-            android:id="@+id/editText"
+            android:id="@+id/itemInList"
             android:layout_width="270dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
@@ -25,6 +25,7 @@
             android:textSize="16dp"
             android:shadowColor="#733ED1"
             android:paddingLeft="5dp"
+            android:clickable="true"
             android:text="Hello That my test"></TextView>
 </LinearLayout>
 </RelativeLayout>
