@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,7 +29,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder>  {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       View view= LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_expandable_list_item_1,parent,false);
+       View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.customelayout,parent,false);
         return new ViewHolder(view);
     }
 
@@ -45,10 +47,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder>  {
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvItem;
-
+        LinearLayout layout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvItem= itemView.findViewById(android.R.id.text1);
+            tvItem= itemView.findViewById(R.id.editText);
+            layout= itemView.findViewById(R.id.relativeLayout);
         }
 
         public void bind(String item) {
