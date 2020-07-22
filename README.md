@@ -5,7 +5,7 @@
 
 Submitted by: **Ahmed Safwat Abdelfaheem**
 
-Time spent: **3** hours spent in total
+Time spent: **4** hours spent in total
 
 ## User Stories
 
@@ -26,9 +26,7 @@ The following **additional** features are implemented:
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
-
-https://drive.google.com/file/d/1zmxfT76ErQ6TqlAUzLse2zUUxamo9WJy/view?usp=sharing
-
+<img src='https://github.com/Ahmedsafwat101/TodoCodePath/blob/master/sampletodolist.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
